@@ -19,7 +19,7 @@ fun checkVps(ps: String): Boolean {
         if (c == '(') {
             stack.add(c)
         } else {
-            if (stack.isNotEmpty() && stack.last() == '(') stack.removeLast()
+            if (stack.isNotEmpty()) stack.removeLast()
             else return false
         }
     }
