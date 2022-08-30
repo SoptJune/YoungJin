@@ -1,7 +1,7 @@
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
+import java.util.ArrayDeque
+import java.lang.Math.abs
+
+// https://www.acmicpc.net/problem/2346
 
 data class Balloon(
     val id: Int,
@@ -9,29 +9,27 @@ data class Balloon(
 )
 
 fun main() {
-    val br = BufferedReader(InputStreamReader(System.`in`))
-    val bw = BufferedWriter(OutputStreamWriter(System.out))
-    val balloons = mutableListOf<Balloon>()
+    val br = System.`in`.bufferedReader()
+    val balloons = ArrayDeque<Balloon>()
+    var movement: Int
 
-    br.readLine().toInt()
+    br.readLine()
     br.readLine().split(" ").mapIndexed { id, num ->
-        balloons.add(Balloon(id + 1, num.toInt()))
+        balloons.addFirst(Balloon(id + 1, num.toInt()))
     }
 
-    var idx = 0
-    var targetIdx = 0
-    var target = balloons[idx]
+    while (balloons.isNotEmpty()) {
+        print("${balloons.last().id} ")
+        movement = balloons.last().num
+        balloons.removeLast()
 
-    while (balloons.size > 1) {
-        targetIdx = (idx + balloons[idx].num) % balloons.size
-        if (targetIdx < 0) targetIdx += balloons.size
-
-        bw.write("${balloons[idx].id} ")
-        target = balloons[targetIdx]
-        balloons.removeAt(idx)
-        idx = balloons.indexOf(target)
+        if (balloons.isEmpty()) break
+        if (movement > 0) {
+            for (i in 0 until movement - 1)
+                balloons.addFirst(balloons.removeLast())
+        } else {
+            for (i in 0 until abs(movement))
+                balloons.addLast(balloons.removeFirst())
+        }
     }
-
-    bw.write("${balloons[0].id} ")
-    bw.flush()
 }
