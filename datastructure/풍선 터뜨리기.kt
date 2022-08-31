@@ -8,8 +8,39 @@ data class Balloon(
     val num: Int
 )
 
+val br = System.`in`.bufferedReader()
 fun main() {
-    val br = System.`in`.bufferedReader()
+    solution1()
+    solution2()
+}
+
+fun solution1() {
+    val balloons = mutableListOf<Balloon>()
+    br.readLine()
+    br.readLine().split(" ").mapIndexed { id, num ->
+        balloons.add(Balloon(id + 1, num.toInt()))
+    }
+
+    var idx = 0
+    var movement = 0
+
+    while (true) {
+        print("${balloons[idx].id} ")
+        movement = balloons[idx].num
+        balloons.removeAt(idx)
+        if (balloons.isEmpty()) break
+
+        if (movement > 0) movement--
+        idx += movement
+
+        while (idx !in balloons.indices) {
+            if (idx < 0) idx += balloons.size
+            idx %= balloons.size
+        }
+    }
+}
+
+fun solution2() {
     val balloons = ArrayDeque<Balloon>()
     var movement: Int
 
