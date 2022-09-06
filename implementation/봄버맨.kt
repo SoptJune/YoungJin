@@ -1,12 +1,11 @@
 // https://www.acmicpc.net/problem/16918
 
-var bombs: MutableList<MutableList<Bomb>> = mutableListOf()
-
 data class Bomb(
     var status: Char,
     var time: Int
 )
 
+var bombs: MutableList<MutableList<Bomb>> = mutableListOf()
 fun main() {
     val br = System.`in`.bufferedReader()
     val (r, c, n) = br.readLine().split(" ").map { it.toInt() }
@@ -16,6 +15,7 @@ fun main() {
     }
 
     var sec = 1
+    val flag: MutableList<MutableList<Boolean>> = mutableListOf()
     while (sec < n) {
         sec++
         when (sec % 2) {
@@ -40,8 +40,7 @@ fun installBombs(r: Int, c: Int, s: Int) {
 }
 
 /** 3초 전에 설치된 폭탄이 제거됨 */
-fun uninstallBombs(r: Int, c: Int, s: Int) {
-    val flag: MutableList<MutableList<Boolean>> = mutableListOf()
+fun uninstallBombs(r: Int, c: Int, s: Int, flag: MutableList) {
     for (row in 0 until r) {
         flag.add(mutableListOf())
         for (col in 0 until c) {
