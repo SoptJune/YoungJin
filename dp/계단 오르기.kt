@@ -19,7 +19,7 @@ fun main() {
     }
 
     dp[0] = stair[0]
-    dp[1] = max(stair[0] + stair[1], stair[1])
+    dp[1] = stair[0] + stair[1]
     dp[2] = max(stair[0] + stair[2], stair[1] + stair[2])
 
     for (i in 3 until n)
