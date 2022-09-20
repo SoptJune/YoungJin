@@ -4,10 +4,10 @@ fun main() {
     val br = System.`in`.bufferedReader()
     lateinit var clothesMap: HashMap<String, MutableList<String>>
 
-    repeat(br.readLine().toInt()) {// 테스트 케이스 입력
+    repeat(br.readLine().toInt()) { // 테스트 케이스 입력
         clothesMap = hashMapOf()
 
-        repeat(br.readLine().toInt()) {// 의상 입력
+        repeat(br.readLine().toInt()) { // 의상 입력
             val (clothes, type) = br.readLine().split(" ")
             if (clothesMap.containsKey(type))
                 clothesMap[type]!!.add(clothes)
