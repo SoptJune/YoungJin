@@ -5,7 +5,7 @@ fun main() {
     val br = System.`in`.bufferedReader()
 
     for (i in 1 until dp.size) {
-        for (j in 0..i) {
+        for (j in 1..i) {
             when (j) {
                 0 -> dp[i][j] = 1
                 1 -> dp[i][j] = i
