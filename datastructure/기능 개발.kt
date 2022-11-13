@@ -23,7 +23,6 @@ fun solution(progresses: IntArray, speeds: IntArray): IntArray {
         day++
     }
 
-    println(answer)
     return answer.toIntArray()
 }
 
