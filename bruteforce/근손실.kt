@@ -11,9 +11,9 @@ fun main() {
     kits = br.readLine().split(" ").map { it.toInt() }
 
     var ans = 0
-    val test = kits.indices.toList().permutationAll()
+    val orders = kits.indices.toList().permutationAll()
 
-    for (order in test)
+    for (order in orders)
         if (isValidOrder(order))
             ans++
 
