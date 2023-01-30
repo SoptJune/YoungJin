@@ -11,7 +11,7 @@ fun main() {
     kits = br.readLine().split(" ").map { it.toInt() }
 
     var ans = 0
-    val test = permutation(kits.indices.toList())
+    val test = kits.indices.toList().permutationAll()
 
     for (order in test)
         if (isValidOrder(order))
@@ -21,10 +21,10 @@ fun main() {
 }
 
 fun isValidOrder(order: List<Int>): Boolean  {
-    var total = WEIGHT
+    var sum = WEIGHT
     for (idx in order) {
-        if (total + kits[idx] - K >= WEIGHT) total += kits[idx]
-        else return false
+        sum += (kits[idx] - K)
+        if(sum < WEIGHT) return false
     }
     return true
 }
@@ -32,4 +32,23 @@ fun isValidOrder(order: List<Int>): Boolean  {
 fun permutation(sub: List<Int>, fin: List<Int> = listOf()): List<List<Int>> {
     return if (sub.isEmpty()) listOf(fin)
     else sub.flatMap { permutation(sub - it, fin + it) }
+}
+
+private fun List<Int>.permutationAll(
+    r: Int = this.size,
+    curArr: MutableList<Int> = MutableList(r) { 0 },
+    visited: Int = 0,
+    result: MutableList<List<Int>> = mutableListOf()
+): List<List<Int>> {
+    if (r == 0) {
+        result.add(curArr.toList())
+        return emptyList()
+    }
+    forEachIndexed { i, v ->
+        if (visited and (1 shl i) == 0) {
+            curArr[curArr.size - r] = v
+            permutationAll(r - 1, curArr, visited or (1 shl i), result)
+        }
+    }
+    return result
 }
