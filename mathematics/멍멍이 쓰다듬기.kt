@@ -14,6 +14,6 @@ fun main() {
     val gap = (Y - X)
     val N = sqrt(gap.toDouble()).toInt()
     if (N * N == gap) print(2 * N - 1)
-    else if (gap <= N * N + N) print(2 * N)
+    else if (gap - N * N <= N) print(2 * N)
     else print(2 * N + 1)
 }
