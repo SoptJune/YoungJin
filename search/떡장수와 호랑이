@@ -1,0 +1,29 @@
+// https://www.acmicpc.net/problem/16432
+
+var N = 0
+var answer: Set<String>? = null
+val riceCakeArr = mutableListOf<List<String>>()
+fun main() {
+    N = readln().toInt()
+
+    repeat(N) {
+        riceCakeArr.add(readln().split(" "))
+    }
+
+    dfs(0, "")
+
+    if (answer == null) print(-1)
+    else answer!!.forEach { println(it) }
+}
+
+fun dfs(curIdx: Int, case: String) {
+    if (curIdx == N) {
+        val riceCakeSet = case.split(" ").toSet()
+        if (riceCakeSet.size == N)
+            answer = riceCakeSet
+        return
+    }
+
+    for (riceCakeNum in riceCakeArr[curIdx].filterIndexed { index, _ -> index > 0 })
+        dfs(curIdx + 1, if (curIdx == 0) riceCakeNum else "$case $riceCakeNum")
+}
