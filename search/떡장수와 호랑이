@@ -1,29 +1,37 @@
 // https://www.acmicpc.net/problem/16432
+import kotlin.system.exitProcess
 
 var N = 0
-var answer: Set<String>? = null
-val riceCakeArr = mutableListOf<List<String>>()
+lateinit var answer: Array<Int>
+lateinit var visited: Array<Array<Boolean>>
+val riceCake = mutableListOf<List<Int>>()
+
 fun main() {
     N = readln().toInt()
+    answer = Array(N) { 0 }
+    visited = Array(N) {
+        Array(10) { false }
+    }
 
     repeat(N) {
-        riceCakeArr.add(readln().split(" "))
+        riceCake.add(readln().split(" ").map { it.toInt() }.filterIndexed { idx, _ -> idx > 0 })
     }
 
-    dfs(0, "")
-
-    if (answer == null) print(-1)
-    else answer!!.forEach { println(it) }
+    dfs(0, 0)
+    print(-1)
 }
 
-fun dfs(curIdx: Int, case: String) {
-    if (curIdx == N) {
-        val riceCakeSet = case.split(" ").toSet()
-        if (riceCakeSet.size == N)
-            answer = riceCakeSet
-        return
+fun dfs(prevCake: Int, day: Int) {
+    if (day == N) {
+        answer.forEach { println(it) }
+        exitProcess(0)
     }
 
-    for (riceCakeNum in riceCakeArr[curIdx].filterIndexed { index, _ -> index > 0 })
-        dfs(curIdx + 1, if (curIdx == 0) riceCakeNum else "$case $riceCakeNum")
+    for (cake in riceCake[day]) {
+        if (cake != prevCake && !visited[day][cake]) {
+            answer[day] = cake
+            visited[day][cake] = true
+            dfs(cake, day + 1)
+        }
+    }
 }
