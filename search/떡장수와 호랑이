@@ -1,22 +1,14 @@
 // https://www.acmicpc.net/problem/16432
 import kotlin.system.exitProcess
 
-var N = 0
-lateinit var answer: Array<Int>
-lateinit var visited: Array<Array<Boolean>>
-val riceCake = mutableListOf<List<Int>>()
+val N = readln().toInt()
+val answer = Array(N) { 0 }
+val visited = Array(N) { BooleanArray(10) }
+val riceCake = Array(N) {
+    readln().split(" ").map { it.toInt() }.filterIndexed { idx, _ -> idx > 0 }
+}
 
 fun main() {
-    N = readln().toInt()
-    answer = Array(N) { 0 }
-    visited = Array(N) {
-        Array(10) { false }
-    }
-
-    repeat(N) {
-        riceCake.add(readln().split(" ").map { it.toInt() }.filterIndexed { idx, _ -> idx > 0 })
-    }
-
     dfs(0, 0)
     print(-1)
 }
