@@ -1,0 +1,29 @@
+// https://www.acmicpc.net/problem/16432
+import kotlin.system.exitProcess
+
+val N = readln().toInt()
+val answer = Array(N) { 0 }
+val visited = Array(N) { BooleanArray(10) }
+val riceCake = Array(N) {
+    readln().split(" ").map { it.toInt() }.filterIndexed { idx, _ -> idx > 0 }
+}
+
+fun main() {
+    dfs(0, 0)
+    print(-1)
+}
+
+fun dfs(prevCake: Int, day: Int) {
+    if (day == N) {
+        answer.forEach { println(it) }
+        exitProcess(0)
+    }
+
+    for (cake in riceCake[day]) {
+        if (cake != prevCake && !visited[day][cake]) {
+            answer[day] = cake
+            visited[day][cake] = true
+            dfs(cake, day + 1)
+        }
+    }
+}
