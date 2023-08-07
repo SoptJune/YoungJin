@@ -11,7 +11,7 @@ fun main() {
     multiTab = Array(size) { EMPTY }
     schedule = readln().split(" ")
     schedule.forEach { p ->
-        plugMap[p] = plugMap[p]?.plus(1) ?: 1
+        plugMap[p] = plugMap.getOrDefault(p, 0).plus(1)
     }
 
     schedule.forEachIndexed { idx, plug ->
@@ -55,6 +55,6 @@ fun changePlug(pos: Int, newPlug: String) {
 
 /** 해당 플러그를 스케줄링 처리 및 꽂으려고 하는 플러그가 멀티탭에 꽂혀있지 않다면 해당 포지션에 플러그를 꽂음 */
 fun plugIn(pos: Int? = null, plug: String) {
-    plugMap[plug] = plugMap[plug]!!.minus(1)
+    plugMap[plug] = plugMap.getOrDefault(plug, 0).minus(1)
     if (pos != null) multiTab[pos] = plug
 }
