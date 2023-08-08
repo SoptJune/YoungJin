@@ -1,42 +1,34 @@
 // https://www.acmicpc.net/problem/14719
 
-import kotlin.math.abs
-
 fun main() {
     readln()
-
     var total = 0
-    var diffInfos = mutableListOf<DiffInfo>()
-    val heights = readln().split(" ").map { it.toInt() }
-
-    var maxHeight = heights[0]
-    var prevHeight = heights[0]
-
-    for (i in 1 until heights.size) {
-        if (isHole(prevHeight, heights[i], maxHeight)) {
-            val standard = heights[i].coerceAtMost(maxHeight)
-            for (idx in diffInfos.size - 1 downTo 0) {
-                if (diffInfos[idx].height < standard) {
-                    total += (standard - diffInfos[idx].height)
-                    diffInfos[idx] = DiffInfo(standard, diffInfos[idx].diff - standard)
-                } else {
-                    break
-                }
+    val h = mutableListOf<Int>()
+    val originH = readln().split(" ").map { it.toInt() }
+    
+    var minH = 0
+    var maxH = originH[0]
+    var prevH = originH[0]
+    
+    for (i in 1 until originH.size) {
+        val isHole = (prevH < originH[i] && prevH < maxH)
+        setMinMax(originH[i], maxH) { min, max -> maxH = max; minH = min }
+        if (isHole) {
+            for (j in h.size - 1 downTo 0) {
+                if (h[j] >= minH) break
+                total += (minH - h[j])
+                h[j] = minH
             }
         }
-
-        val curDiff = heights[i] - maxHeight
-        if (curDiff > 0) maxHeight = heights[i]
-        diffInfos.add(DiffInfo(heights[i], abs(curDiff)))
-        prevHeight = heights[i]
+        
+        prevH = originH[i]
+        h.add(originH[i])
     }
 
     print(total)
 }
 
-fun isHole(x: Int, h1: Int, h2: Int) = (x < h1 && x < h2)
-
-data class DiffInfo(
-    var height: Int,
-    var diff: Int
-)
+inline fun setMinMax(h1: Int, h2: Int, setMinMax: (Int, Int) -> Unit) {
+    if (h1 < h2) setMinMax(h1, h2)
+    else setMinMax(h2, h1)
+}
